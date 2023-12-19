@@ -133,7 +133,7 @@ Transform:
   m_GameObject: {fileID: 7529346003056685609}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.343}
+  m_LocalPosition: {x: 0, y: 0, z: 0.295}
   m_LocalScale: {x: 0.50502, y: 0.50502, z: 1.2341679}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -257,10 +257,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BoidsInScene: []
-  Speed: 1
+  Speed: 10
   LookRange: 2
   MoveStrength: 1
-  AvoidRange: 0
-  AvoidStrength: 0
+  AvoidRange: 1
+  AvoidStrength: 2
   CohesionRange: 0
   CohesionStrength: 0

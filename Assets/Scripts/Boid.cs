@@ -28,7 +28,7 @@ public class Boid : MonoBehaviour
         foreach (Boid _boid in BoidsInScene)
         {
             float _distance = Vector3.Distance(gameObject.transform.position, _boid.gameObject.transform.position);
-            if (_distance <= LookRange)
+            if (_distance < LookRange)
             {
                 _directionSum += _boid.transform.position;
                 _boidCount++;
@@ -53,25 +53,57 @@ public class Boid : MonoBehaviour
 
     private void AvoidNearbyBoids()
     {
+        Vector3 _faceAwayDirection = Vector3.zero;
+
         //loop over all other boids in scene, skip if itself.
-        //if boid is in avoid range, subtract its position from our position to get the direction facing away and normalize it.
+        foreach (Boid _boid in BoidsInScene)
+        {
+            float _distance = Vector3.Distance(_boid.transform.position, transform.position);
+
+            if (_distance < AvoidRange)
+            {
+                _faceAwayDirection = _faceAwayDirection + (transform.position - _boid.transform.position);
+            }
+        }
+
+        _faceAwayDirection = _faceAwayDirection.normalized;
+
         //calculate new move direction to include avoidance.
+        Direction = Direction + AvoidStrength * _faceAwayDirection / (AvoidStrength + 1);
+        Direction = Direction.normalized;
     }
 
     private void AlignWithBoids()
     {
-        //loop over other boids. If in range, add direction to the local sum.
-        //caculate avarage look direction according to sum.
-        //Calculate new direction to inlude alignment.
+        Vector3 _directionSum = Vector3.zero;
+        int _boidCount = 0;
+
+        foreach (Boid _boid in BoidsInScene)
+        {
+            float _distance = Vector3.Distance(_boid.transform.position, transform.position);
+            if (_distance < CohesionRange) 
+            {
+                _directionSum += _boid.Direction;
+                _boidCount++;
+            }
+        }
+
+        Vector3 _directionAverage = _directionSum / _boidCount;
+        _directionAverage = _directionAverage.normalized;
+
+        float deltaTimeStrength = CohesionStrength * Time.deltaTime;
+        Direction = Direction + deltaTimeStrength * _directionAverage / (deltaTimeStrength + 1);
+        Direction = Direction.normalized;
     }
 
     // Update is called once per frame
     void Update()
     {
-        MoveToCenterOfFlock();
-        AvoidNearbyBoids();
-        AlignWithBoids();
+        //MoveToCenterOfFlock();
+        //AvoidNearbyBoids();
+        //AlignWithBoids();
 
         transform.Translate(Direction * (Speed * Time.deltaTime));
+        transform.LookAt(Direction);
     }
 }

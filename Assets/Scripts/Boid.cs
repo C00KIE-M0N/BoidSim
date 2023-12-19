@@ -6,16 +6,18 @@ public class Boid : MonoBehaviour
 {
     public List<Boid> BoidsInScene = new List<Boid>();
 
-    [SerializeField] private Vector3 Direction;
     [SerializeField] private float Speed;
     
     [SerializeField] private float LookRange;
+    [SerializeField] private float MoveStrength;
 
     [SerializeField] private float AvoidRange;
     [SerializeField] private float AvoidStrength;
 
     [SerializeField] private float CohesionRange;
     [SerializeField] private float CohesionStrength;
+
+    private Vector3 Direction;
 
     private void MoveToCenterOfFlock()
     {
@@ -39,12 +41,14 @@ public class Boid : MonoBehaviour
         }
 
         //get normalized value of avarage position.
-        Vector3 _directionAvarage = _directionSum / _boidCount;
-        _directionAvarage = _directionAvarage.normalized;
-        Vector3 _faceDirection = (_directionAvarage - transform.position).normalized;
+        Vector3 _directionAverage = _directionSum / _boidCount;
+        _directionAverage = _directionAverage.normalized;
+        Vector3 _faceDirection = (_directionAverage - transform.position).normalized;
 
         //move direction of this boid to normalized position.
-
+        float _turnStrength = MoveStrength * Time.deltaTime;
+        Direction = Direction + _turnStrength * _faceDirection / (_turnStrength + 1);
+        Direction = Direction.normalized;
     }
 
     private void AvoidNearbyBoids()

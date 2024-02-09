@@ -256,11 +256,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3a432368998ff34b9871a933b52c318, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BoidsInScene: []
+  NoClumpingRadius: 5
+  LocalAreaRadius: 10
   Speed: 10
-  LookRange: 2
-  MoveStrength: 1
-  AvoidRange: 1
-  AvoidStrength: 2
-  CohesionRange: 0
-  CohesionStrength: 0
+  SteeringSpeed: 100

@@ -27,6 +27,9 @@ public class Boid : MonoBehaviour
         Vector3 cohesionsdirection = Vector3.zero;
         int cohesionCount = 0;
 
+        var leaderboid = other[0];
+        var leaderangle = 180f;
+
         foreach (Boid _boid in other)
         {
             //skip self
@@ -51,6 +54,13 @@ public class Boid : MonoBehaviour
 
                 cohesionsdirection += _boid.transform.forward - transform.position;
                 cohesionCount++;
+
+                var angle = Vector3.Angle(_boid.transform.position - transform.position, transform.forward);
+                if (angle < leaderangle && angle < 90f)
+                {
+                    leaderboid = _boid;
+                    leaderangle = angle;
+                }
             }
         }
 
@@ -79,6 +89,11 @@ public class Boid : MonoBehaviour
         steering += seperationdirection.normalized * 0.5f;
         steering += alignmentdirection.normalized * 0.34f;
         steering += cohesionsdirection.normalized * 0.16f;
+
+        if (leaderboid != null)
+        {
+            steering += (leaderboid.transform.position - transform.position).normalized * 0.5f;
+        }
 
         if (steering != Vector3.zero)
         {

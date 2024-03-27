@@ -76,9 +76,9 @@ public class Boid : MonoBehaviour
         cohesionsdirection -= transform.position;
 
         //apply steering
-        steering += seperationdirection.normalized;
-        steering += alignmentdirection.normalized;
-        steering += cohesionsdirection.normalized;
+        steering += seperationdirection.normalized * 0.5f;
+        steering += alignmentdirection.normalized * 0.34f;
+        steering += cohesionsdirection.normalized * 0.16f;
 
         if (steering != Vector3.zero)
         {

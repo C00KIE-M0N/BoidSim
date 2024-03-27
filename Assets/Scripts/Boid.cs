@@ -95,6 +95,12 @@ public class Boid : MonoBehaviour
             steering += (leaderboid.transform.position - transform.position).normalized * 0.5f;
         }
 
+        RaycastHit hitInfo;
+        if (Physics.Raycast(transform.position, transform.forward, out hitInfo, LocalAreaRadius, LayerMask.GetMask("Obstacle")))
+        {
+            steering = ((hitInfo.point + hitInfo.normal) - transform.position).normalized;
+        }
+
         if (steering != Vector3.zero)
         {
             transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(steering), SteeringSpeed * time);

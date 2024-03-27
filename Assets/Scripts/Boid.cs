@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Boid : MonoBehaviour
 {
-    public int SwarmIndex { get; set; }
+   public int SwarmIndex { get; set; }
     public float NoClumpingRadius;
     public float LocalAreaRadius;
     public float Speed;
@@ -23,6 +23,10 @@ public class Boid : MonoBehaviour
         Vector3 alignmentdirection = Vector3.zero;
         int alignmentCount = 0;
 
+        //cohesion vars
+        Vector3 cohesionsdirection = Vector3.zero;
+        int cohesionCount = 0;
+
         foreach (Boid _boid in other)
         {
             //skip self
@@ -31,7 +35,7 @@ public class Boid : MonoBehaviour
                 continue;
             }
 
-            var distance = Vector3.Distance(_boid.transform.position, transform.position);
+            var distance = Vector3.Distance(_boid.transform.position, this.transform.position);
 
             //identify local neighbor
             if (distance < NoClumpingRadius)
@@ -44,6 +48,9 @@ public class Boid : MonoBehaviour
             {
                 alignmentdirection += _boid.transform.forward;
                 alignmentCount++;
+
+                cohesionsdirection += _boid.transform.forward - transform.position;
+                cohesionCount++;
             }
         }
 
@@ -56,9 +63,22 @@ public class Boid : MonoBehaviour
         //flip and normalize
         seperationdirection = -seperationdirection.normalized;
 
+        if (alignmentCount > 0)
+        {
+            alignmentdirection /= alignmentCount;
+        }
+
+        if (cohesionCount > 0)
+        {
+            cohesionsdirection /= cohesionCount;
+        }
+
+        cohesionsdirection -= transform.position;
+
         //apply steering
-        steering = seperationdirection;
-        steering += alignmentdirection;
+        steering += seperationdirection.normalized;
+        steering += alignmentdirection.normalized;
+        steering += cohesionsdirection.normalized;
 
         if (steering != Vector3.zero)
         {

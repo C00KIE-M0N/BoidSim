@@ -256,7 +256,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3a432368998ff34b9871a933b52c318, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NoClumpingRadius: 5
+  NoClumpingRadius: 2
   LocalAreaRadius: 10
   Speed: 10
   SteeringSpeed: 100

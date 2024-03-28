@@ -683,7 +683,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BoidPrefab: {fileID: 3718668938110455090, guid: 0579541da8cb5a44cad402e40c8bd7b0,
     type: 3}
-  SpawnBoids: 100
+  BoidPrefab2: {fileID: 939167122494334315, guid: 968c8df43801f8148a6faa8fb917274d,
+    type: 3}
+  BoidPrefab3: {fileID: 5425994561582379064, guid: 083aaa7c93f62d54b9281252617ff212,
+    type: 3}
+  SpawnBoids: 50
 --- !u!1 &1797374886
 GameObject:
   m_ObjectHideFlags: 0

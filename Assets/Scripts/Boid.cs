@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Boid : MonoBehaviour
 {
-   public int SwarmIndex { get; set; }
+    public int SwarmIndex { get; set; }
     public float NoClumpingRadius;
     public float LocalAreaRadius;
     public float Speed;
@@ -47,7 +47,7 @@ public class Boid : MonoBehaviour
                 seperationCount++;
             }
 
-            if (distance < LocalAreaRadius)
+            if (distance < LocalAreaRadius && _boid.SwarmIndex == this.SwarmIndex)
             {
                 alignmentdirection += _boid.transform.forward;
                 alignmentCount++;
@@ -94,6 +94,8 @@ public class Boid : MonoBehaviour
         {
             steering += (leaderboid.transform.position - transform.position).normalized * 0.5f;
         }
+
+        Debug.Log(leaderboid.gameObject);
 
         RaycastHit hitInfo;
         if (Physics.Raycast(transform.position, transform.forward, out hitInfo, LocalAreaRadius, LayerMask.GetMask("Obstacle")))

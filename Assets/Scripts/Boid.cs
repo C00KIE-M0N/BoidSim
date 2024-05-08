@@ -38,7 +38,7 @@ public class Boid : MonoBehaviour
                 continue;
             }
 
-            var distance = Vector3.Distance(_boid.transform.position, this.transform.position);
+            var distance = Vector3.Distance(_boid.transform.position, transform.position);
 
             //identify local neighbor
             if (distance < NoClumpingRadius)
@@ -47,7 +47,7 @@ public class Boid : MonoBehaviour
                 seperationCount++;
             }
 
-            if (distance < LocalAreaRadius && _boid.SwarmIndex == this.SwarmIndex)
+            if (distance < LocalAreaRadius && _boid.SwarmIndex == SwarmIndex)
             {
                 alignmentdirection += _boid.transform.forward;
                 alignmentCount++;
@@ -94,8 +94,6 @@ public class Boid : MonoBehaviour
         {
             steering += (leaderboid.transform.position - transform.position).normalized * 0.5f;
         }
-
-        Debug.Log(leaderboid.gameObject);
 
         RaycastHit hitInfo;
         if (Physics.Raycast(transform.position, transform.forward, out hitInfo, LocalAreaRadius, LayerMask.GetMask("Obstacle")))
